@@ -12,14 +12,14 @@ import java.util.Scanner;
 public class Player {
     public static int NUMBER_OF_SHIPS = 4;
     private String name;
-    Grid primary;
-    Grid tracking;
+    Primary primary;
+    Tracking tracking;
     List<Ship> ships;
 
     public Player(String x, int gameType){
         name = x;
-        primary = new Grid();
-        tracking = new Grid();
+        primary = new Primary();
+        tracking = new Tracking();
         
         ships = new ArrayList<>();
 	switch (gameType){
@@ -65,9 +65,8 @@ public class Player {
 	}
     }
     
-    public void setShips(List<Ship> ships){
+    public void setShips(List<Ship> ships, Input input){
         Ship ship;
-        Scanner input = new Scanner(System.in);
         int x, y, size;
         ShipDirection direction = ShipDirection.NORTH;
         String string;
@@ -84,29 +83,10 @@ public class Player {
 	    System.out.println(this.name + ":");
             do{
                 System.out.println("Set your " + string + "!");
-                do{
-		    System.out.print("x: ");
-		    x = input.nextInt();
-		}while(x < 0 || x > 9);
-		do{
-		    System.out.print("y: ");
-		    y = input.nextInt();
-		}while(y < 0 || y > 9);
-                string = input.nextLine();
-                do{
-                    System.out.print("direction: ");
-                    string = input.nextLine();
-                    if (!string.equals("north") && !string.equals("south") && !string.equals("east") && !string.equals("west"))
-                        System.out.println("Invalid input. Please enter north, south, east or west");
-                    else{
-                        switch(string){
-                            case "north":   direction = ShipDirection.NORTH; break;
-                            case "south":   direction = ShipDirection.SOUTH; break;
-                            case "east":    direction = ShipDirection.EAST; break;
-                            case "west":    direction = ShipDirection.WEST; break;
-                        }
-                    }
-                }while (!string.equals("east") && !string.equals("west") && !string.equals("north") && !string.equals("south"));
+                input.enterCoordinates();
+		x = input.getX();
+		y = input.getY();
+                direction = input.enterDirection();
                 if (this.primary.placeShip(size, x, y, direction)){
 		    this.ships.get(i).setDirection(direction);
 		    this.ships.get(i).setPosition(x, y);
@@ -126,16 +106,13 @@ public class Player {
     
     /*	This method defines all the functionality and calls the methods necessary to facilitate an attack on another player.
 	@return true if all enemy ships have been destroyed, false otherwise  */
-    public boolean attack(Player enemy){
-	Scanner input = new Scanner(System.in);
+    public boolean attack(Player enemy, Input input){
 	int x, y, returnNumber;
 	do{
-	    System.out.print(this.getName() + ", enter x: ");
-	    x = input.nextInt();
-	    System.out.print(this.getName() + ", enter y: ");
-	    y = input.nextInt();
-	
-	    System.out.println("You are attacking position " + x + " " + y);
+	    input.enterCoordinates();
+	    x = input.getX();
+	    y = input.getY();
+	    
 	    returnNumber = enemy.primary.checkAttack(x, y);
 	    if (returnNumber == 1){
 		for (int i = 0; i < enemy.ships.size(); i++){
@@ -163,16 +140,16 @@ public class Player {
     }
     public void printGrids(){
 	System.out.println("  Primary			Tracking");
-	System.out.println("  0 1 2 3 4 5 6 7 8 9       0 1 2 3 4 5 6 7 8 9");
+	System.out.println("  1 2 3 4 5 6 7 8 9 10      1 2 3 4 5 6 7 8 9 10");
 	for (int i = 0; i < 10; i++){
-	    System.out.print(i + ":");
+	    System.out.printf("%c:", 'A' + i);
 	    for (int j = 0; j < 10; j++){
 		char c = this.primary.getField(j, i);
 		System.out.printf("%c ", c);
 	    }
 	    System.out.print("    ");
 	    
-	    System.out.print(i + ":");
+	    System.out.printf("%c:", 'A' + i);
 	    for (int j = 0; j < 10; j++){
 	        char c = this.tracking.getField(j, i);
 	        System.out.printf("%c ", c);

@@ -11,6 +11,7 @@ public class Battleships {
         Scanner input;
         input = new Scanner(System.in);
 	int gameType;
+	Input inputObject = new Input();
 	
 	System.out.println("Welcome to the game of Battleships!");
 	System.out.println("Select your game mode:");
@@ -32,10 +33,10 @@ public class Battleships {
         
         System.out.println(p1.getName() + " vs " + p2.getName() + "\n");
 	
-        p1.setShips(p1.ships);
+    p1.setShips(p1.ships, inputObject);
 	pressAnyKeyToContinue();
 	print20Newlines();
-	p2.setShips(p2.ships);
+	p2.setShips(p2.ships, inputObject);
 	pressAnyKeyToContinue();
 	print20Newlines();
 	
@@ -47,7 +48,7 @@ public class Battleships {
 	    print20Newlines();
 	    System.out.println("=================  " + p1.getName() + "  =================");
 	    p1.printGrids();
-	    if (p1.attack(p2)){
+	    if (p1.attack(p2, inputObject)){
 		System.out.println(p1.getName() + " is the winner!");
 		break;
 	    }
@@ -57,7 +58,7 @@ public class Battleships {
 	    print20Newlines();
 	    System.out.println("=================  " + p2.getName() + "  =================");
 	    p2.printGrids();
-	    if(p2.attack(p1)){
+	    if(p2.attack(p1, inputObject)){
 		System.out.println(p2.getName() + " is the winner!");
 		break;
 	    }
