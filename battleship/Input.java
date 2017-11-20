@@ -25,7 +25,7 @@ public class Input{
 		else if (yAsChar >= 'a' && yAsChar <= 'j')
 		    y = yAsChar - 'a';
 		else{
-		    System.out.println("Error: Invalid input. Try again");
+		    System.out.println("Error: Row character does not match the characters on the board");
 		    continue;
 		}
 		
@@ -33,12 +33,12 @@ public class Input{
 		try{
 		    x = Integer.parseInt(xAsString) - 1;
 		    if (x < 0 || x > 9){
-			System.out.println("Error: Invalid input. Try again");
+			System.out.println("Error: Column number does not match the numbers on the board");
 			continue;
 		    }
 		}
-		catch (Exception e){
-		    System.out.println("Error: Invalid input. Try again");
+		catch (NumberFormatException e){
+		    System.out.println("Error: Input string does not match expected format");
 		    continue;
 		}
 		break;
@@ -51,7 +51,8 @@ public class Input{
 	
 	do{
             System.out.print("Enter direction: ");
-            string = scanner.next();
+            string = scanner.next().toLowerCase();
+			
             if (!string.equals("north") && !string.equals("south") && !string.equals("east") && !string.equals("west") && !string.equals("n") && !string.equals("s") && !string.equals("e") && !string.equals("w"))
                 System.out.println("Invalid input. Please enter (n)orth, (s)outh, (e)ast or (w)est");
             else{

@@ -7,7 +7,6 @@ package battleship;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Player {
     public static int NUMBER_OF_SHIPS = 4;
@@ -135,9 +134,9 @@ public class Player {
 	    }
 	}while (returnNumber != 1 && returnNumber != 0);
 	
-	Battleships.pressAnyKeyToContinue();
 	return false;
     }
+	
     public void printGrids(){
 	System.out.println("  Primary			Tracking");
 	System.out.println("  1 2 3 4 5 6 7 8 9 10      1 2 3 4 5 6 7 8 9 10");
